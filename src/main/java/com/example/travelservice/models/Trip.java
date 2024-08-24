@@ -3,7 +3,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,20 +22,20 @@ public class Trip {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     LocalDateTime date_to;
     @ManyToMany
-    List<Attractions> attractions;
+    List<Attraction> attractions;
     @ManyToOne
-    Hotel hotel;
+    Accommodation accommodation;
 
     public Trip() {
     }
 
-    public Trip(String name, Double budget, Integer numPeople, LocalDateTime date_from, LocalDateTime date_to, List<Attractions> attractions, Hotel hotel) {
+    public Trip(String name, Double budget, Integer numPeople, LocalDateTime date_from, LocalDateTime date_to, List<Attraction> attractions, Accommodation accommodation) {
         this.name = name;
         this.budget = budget;
         this.numPeople = numPeople;
         this.date_from = date_from;
         this.date_to = date_to;
         this.attractions = new ArrayList<>();
-        this.hotel = hotel;
+        this.accommodation = accommodation;
     }
 }

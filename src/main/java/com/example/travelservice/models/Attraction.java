@@ -1,5 +1,6 @@
 package com.example.travelservice.models;
 
+import com.example.travelservice.models.enumerations.AttractionType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -8,7 +9,7 @@ import lombok.Data;
 
 @Data
 @Entity
-public class Attractions {
+public class Attraction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long Id;
@@ -17,13 +18,16 @@ public class Attractions {
     String location;
     Double price;
 
-    public Attractions() {
+    AttractionType type;
+
+    public Attraction() {
     }
 
-    public Attractions(String name, String description, String location, Double price) {
+    public Attraction(String name, String description, String location, Double price, AttractionType type) {
         this.name = name;
         this.description = description;
         this.location = location;
         this.price = price;
+        this.type = type;
     }
 }

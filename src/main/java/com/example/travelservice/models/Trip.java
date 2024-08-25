@@ -40,5 +40,6 @@ public class Trip {
         this.date_to = date_to;
         this.attractions = new ArrayList<>();
         this.accommodations = new ArrayList<>();
+
     }
 }

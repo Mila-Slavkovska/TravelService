@@ -77,4 +77,5 @@ public class Accommodation {
     public void setAccommodationType(AccommodationType accommodationType) {
         this.accommodationType = accommodationType;
     }
+
 }

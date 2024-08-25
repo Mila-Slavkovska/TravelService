@@ -1,6 +1,6 @@
-package com.example.travelservice.service.Implementations;
+package com.example.travelservice.service.impl;
 
-import com.example.travelservice.models.Attractions;
+import com.example.travelservice.models.Attraction;
 import com.example.travelservice.models.Accommodation;
 import com.example.travelservice.models.Trip;
 import com.example.travelservice.models.dto.TripDto;
@@ -39,7 +39,7 @@ public class TripServiceImpl implements TripService {
     @Override
     public Optional<Trip> save(TripDto tripDto) {
         //TODO: handle hotels and attractions when CRUD is implemented
-        List<Attractions> attractions = new ArrayList<>();
+        List<Attraction> attractions = new ArrayList<>();
         List<Accommodation> accommodations = new ArrayList<>();
         Trip trip = new Trip(tripDto.name(), tripDto.budget(), tripDto.numPeople(), tripDto.date_from(), tripDto.date_to(), attractions, accommodations);
         return Optional.of(this.tripRepository.save(trip));

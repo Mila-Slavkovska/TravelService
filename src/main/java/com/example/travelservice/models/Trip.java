@@ -23,14 +23,14 @@ public class Trip {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     LocalDateTime date_to;
     @ManyToMany
-    List<Attractions> attractions;
+    List<Attraction> attractions;
     @ManyToOne
     Hotel hotel;
 
     public Trip() {
     }
 
-    public Trip(String name, Double budget, Integer numPeople, LocalDateTime date_from, LocalDateTime date_to, List<Attractions> attractions, Hotel hotel) {
+    public Trip(String name, Double budget, Integer numPeople, LocalDateTime date_from, LocalDateTime date_to, List<Attraction> attractions, Hotel hotel) {
         this.name = name;
         this.budget = budget;
         this.numPeople = numPeople;

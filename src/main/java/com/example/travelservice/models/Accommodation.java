@@ -14,12 +14,15 @@ public class Accommodation {
     String location;
     Double rating;
     Double pricePerNight;
+
     Integer amountOfPeople;
     @Enumerated(EnumType.STRING)
     AccommodationType accommodationType;
 
+
     public Accommodation() {
     }
+
 
     public Integer getAmountOfPeople() {
         return amountOfPeople;
@@ -30,10 +33,12 @@ public class Accommodation {
     }
 
     public Accommodation(String name, String location, Double rating, Double pricePerNight, Integer amountOfPeople, AccommodationType accommodationType) {
+
         this.name = name;
         this.location = location;
         this.rating = rating;
         this.pricePerNight = pricePerNight;
+
         this.amountOfPeople = amountOfPeople;
         this.accommodationType = accommodationType;
     }
@@ -77,4 +82,5 @@ public class Accommodation {
     public void setAccommodationType(AccommodationType accommodationType) {
         this.accommodationType = accommodationType;
     }
+
 }

@@ -5,11 +5,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-public class Hotel {
+public class Accommodation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long Id;
@@ -18,10 +17,10 @@ public class Hotel {
     Double rating;
     Double pricePerNight;
 
-    public Hotel() {
+    public Accommodation() {
     }
 
-    public Hotel(String name, String location, Double rating, Double pricePerNight) {
+    public Accommodation(String name, String location, Double rating, Double pricePerNight) {
         this.name = name;
         this.location = location;
         this.rating = rating;

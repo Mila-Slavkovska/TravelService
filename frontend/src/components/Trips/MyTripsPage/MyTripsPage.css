@@ -1,0 +1,13 @@
+#upcoming{
+    width: 3rem;
+    background-color: #edf9ff;
+    color: #edf9ff;
+    border: 1px solid #b7daec;
+}
+
+#past{
+    width: 3rem;
+    background-color: #ffefef;
+    color: #ffefef;
+    border: 1px solid #fdc7c7;
+}

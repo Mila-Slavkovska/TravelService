@@ -1,0 +1,15 @@
+.myTripCard{;
+    background-color: #edf9ff;
+}
+.myTripCard:hover{
+    cursor: pointer;
+    background-color: #e5f9ff;
+}
+
+.myTripCardPast{
+    background-color: #ffefef;
+}
+.myTripCardPast:hover{
+    cursor: pointer;
+    background-color: #ffe8e8;
+}

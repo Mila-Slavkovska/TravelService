@@ -23,7 +23,7 @@ public class TripServiceImpl implements TripService {
 
     @Override
     public List<Trip> findAll() {
-        return this.tripRepository.findAll();
+        return this.tripRepository.findAllByOrderByDate_from();
     }
 
     @Override

@@ -6,19 +6,54 @@ import com.example.travelservice.models.Trip;
 import com.example.travelservice.models.dto.TripDto;
 import com.example.travelservice.models.exceptions.TripNotFoundException;
 import com.example.travelservice.repository.TripRepository;
+import com.example.travelservice.service.AccommodationService;
+import com.example.travelservice.service.AttractionsService;
 import com.example.travelservice.service.TripService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TripServiceImpl implements TripService {
     private final TripRepository tripRepository;
+    private final AttractionsService attractionsService;
+    private final AccommodationService accommodationService;
 
-    public TripServiceImpl(TripRepository tripRepository) {
+    public TripServiceImpl(TripRepository tripRepository, AttractionsService attractionsService, AccommodationService accommodationService) {
         this.tripRepository = tripRepository;
+        this.attractionsService = attractionsService;
+        this.accommodationService = accommodationService;
+    }
+
+    public List<Attraction> mapToAttractions(List<Long> attractionIds){
+        List<Attraction> attractions;
+        if(attractionIds != null && !attractionIds.isEmpty()){
+            attractions = attractionIds.stream()
+                    .map(a -> this.attractionsService.getById(a)
+                            .orElseThrow(() -> new RuntimeException("Attraction not found for ID: " + a)))
+                    .collect(Collectors.toList());
+        } else {
+            attractions = new ArrayList<>();
+        }
+
+        return attractions;
+    }
+
+    public List<Accommodation> mapToAccommodations(List<Long> accommodationIds){
+        List<Accommodation> accommodations;
+        if(accommodationIds != null && !accommodationIds.isEmpty()){
+            accommodations = accommodationIds.stream()
+                    .map(a -> this.accommodationService.findById(a)
+                            .orElseThrow(() -> new RuntimeException("Accommodation not found for ID: " + a)))
+                    .collect(Collectors.toList());
+        } else {
+            accommodations = new ArrayList<>();
+        }
+
+        return accommodations;
     }
 
     @Override
@@ -38,9 +73,9 @@ public class TripServiceImpl implements TripService {
 
     @Override
     public Optional<Trip> save(TripDto tripDto) {
-        //TODO: handle hotels and attractions when CRUD is implemented
-        List<Attraction> attractions = new ArrayList<>();
-        List<Accommodation> accommodations = new ArrayList<>();
+        List<Attraction> attractions = mapToAttractions(tripDto.attractions());
+        List<Accommodation> accommodations = mapToAccommodations(tripDto.accommodations());
+
         Trip trip = new Trip(tripDto.name(), tripDto.budget(), tripDto.numPeople(), tripDto.date_from(), tripDto.date_to(), attractions, accommodations);
         return Optional.of(this.tripRepository.save(trip));
     }
@@ -55,9 +90,8 @@ public class TripServiceImpl implements TripService {
         trip.setNumPeople(tripDto.numPeople() != null ? tripDto.numPeople() : trip.getNumPeople());
         trip.setDate_from(tripDto.date_from() != null ? tripDto.date_from() : trip.getDate_from());
         trip.setDate_to(tripDto.date_to() != null ? tripDto.date_to() : trip.getDate_to());
-        // TODO: use Accommodations and Attractions service to map list of ids to list of entities
-        trip.setAccommodations(new ArrayList<>());
-        trip.setAttractions(new ArrayList<>());
+        trip.setAccommodations(tripDto.accommodations() != null ? mapToAccommodations(tripDto.accommodations()) : trip.getAccommodations());
+        trip.setAttractions(tripDto.attractions() != null ? mapToAttractions(tripDto.attractions()) : trip.getAttractions());
 
         return Optional.of(this.tripRepository.save(trip));
     }

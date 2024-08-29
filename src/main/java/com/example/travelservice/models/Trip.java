@@ -24,9 +24,9 @@ public class Trip {
     LocalDateTime date_from;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     LocalDateTime date_to;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     List<Attraction> attractions;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     List<Accommodation> accommodations;
 
 
@@ -35,17 +35,12 @@ public class Trip {
 
 
     public Trip(String name, Double budget, Integer numPeople, LocalDateTime date_from, LocalDateTime date_to, List<Attraction> attractions, List<Accommodation> accommodations) {
-
         this.name = name;
         this.budget = budget;
         this.numPeople = numPeople;
         this.date_from = date_from;
         this.date_to = date_to;
-        this.attractions = new ArrayList<>();
-
-
-        this.accommodations = new ArrayList<>();
-
-
+        this.attractions = attractions;
+        this.accommodations = accommodations;
     }
 }

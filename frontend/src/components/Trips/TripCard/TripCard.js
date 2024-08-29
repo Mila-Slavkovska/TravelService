@@ -1,17 +1,20 @@
-import React from "react";
+import React, {useState} from "react";
 import {formatDate} from "../../../utils/dateFormatter";
 import "./TripCard.css"
+import {compareDates} from "../../../utils/dateComparator";
+import TripDetails from "../TripDetails/TripDetails";
 
-export default function TripCard({myTrip}){
-    const today = new Date();
-    const dateFrom = new Date(myTrip.date_from);
-    console.log(today>dateFrom)
+export default function TripCard({myTrip, setTrips}){
+    const [isOpen, setIsOpen] = useState(false);
     function handleClick(id){
-        console.log(id)
+        console.log(id);
+        setIsOpen(true);
     }
 
     return (
-        <div className={ today>dateFrom ? "card col-md-4 p-0 myTripCardPast shadow-sm" : "card col-md-4 p-0 myTripCard shadow-sm"
+        <>
+            {isOpen && <TripDetails trip={myTrip} open={isOpen} setOpen={setIsOpen} setTrips={setTrips}/>}
+        <div className={ compareDates(myTrip.date_from) ? "card col-md-4 p-0 myTripCardPast shadow-sm" : "card col-md-4 p-0 myTripCard shadow-sm"
         } onClick={() => handleClick(myTrip.id)}>
             <div className={"card-header text-end mb-2"}>
                 {formatDate(myTrip.date_from)} - {formatDate(myTrip.date_to)}
@@ -29,5 +32,6 @@ export default function TripCard({myTrip}){
                 </div>
             </div>
         </div>
+        </>
     )
 }

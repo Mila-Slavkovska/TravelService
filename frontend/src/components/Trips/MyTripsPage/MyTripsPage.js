@@ -14,7 +14,9 @@ export default function MyTripsPage (){
     }
         fetchTrips();
     }, []);
-    console.log("trips: ", trips)
+
+
+    
     return (
         <>
         <header className={"pt-5 pb-2 d-flex justify-content-between"}>
@@ -25,10 +27,10 @@ export default function MyTripsPage (){
             </div>
         </header>
             <hr/>
-        <div className={"row d-flex justify-content-between"}>
+        <div className={"row d-flex justify-content-start"}>
             {trips.length === 0 && <p className={"text-center"}>No trips to show</p>}
             {trips.length > 0 && (
-                trips.map((trip) => <TripCard key={trip.id} myTrip={trip}/>)
+                trips.map((trip) => <TripCard key={trip.id} myTrip={trip} setTrips={setTrips}/>)
             )}
         </div>
         </>

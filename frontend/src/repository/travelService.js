@@ -20,6 +20,16 @@ export async function getAttractions(){
     }
 }
 
+export async function getAccommodations(){
+    try {
+        const response = await instance.get("/accommodations");
+        return response.data;
+    } catch (error){
+        console.log("Error fetching accommodations: " + error);
+        throw error;
+    }
+}
+
 export async function deleteTrip(id){
     try{
         await instance.delete(`/trips/${id}`);
@@ -27,4 +37,8 @@ export async function deleteTrip(id){
         console.log("Error deleting trip: " + error);
         throw error;
     }
+}
+
+export async function addTrip(tripDto){
+    const response = await instance.post("/trips", {...tripDto});
 }

@@ -11,8 +11,9 @@ function App() {
         <main>
             <div className={"container pb-5"}>
                 <Routes>
+                    <Route path={"/home"} element={<MyTripsPage/>}/>
                     <Route path={"/trips"} element={<MyTripsPage/>}/>
-                    <Route path={"/home"} element={<AddNewTripPage/>}/>
+                    <Route path={"/plan-trip"} element={<AddNewTripPage/>}/>
                     <Route path="/" element={
                         <Navigate replace to="/home" />
                     } />

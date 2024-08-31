@@ -45,7 +45,7 @@ export  default function TripDetails({trip, open, setOpen, setTrips}){
                 <hr/>
                 <div id="modal-modal-body" sx={{ mt: 2 }}>
                     <div className={"d-flex justify-content-around"}>
-                        <p className="card-text fw-bold">My budget: </p><p>{trip.budget}EU</p>
+                        <p className="card-text fw-bold">My budget: </p><p>&#8364;{trip.budget}</p>
                     </div>
                     <div className={"d-flex justify-content-around"}>
                         <p className="card-text fw-bold">Number of people: </p><p>{trip.numPeople}</p>

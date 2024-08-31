@@ -1,7 +1,8 @@
-package com.example.travelservice.web;
+package com.example.travelservice.web.rest;
 
 import com.example.travelservice.models.Attraction;
 import com.example.travelservice.models.dto.AttractionDto;
+import com.example.travelservice.models.enumerations.AttractionType;
 import com.example.travelservice.service.AttractionsService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -51,4 +52,10 @@ public class AttractionsRestController {
         return ResponseEntity.badRequest().build();
     }
 
+    @GetMapping("/find")
+    public List<Attraction> search(@RequestParam(required = false) String name,
+                                   @RequestParam(required = false) String location,
+                                   @RequestParam(required = false) AttractionType type){
+        return this.attractionsService.search(name, location, type);
+    }
 }

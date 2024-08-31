@@ -13,6 +13,7 @@ public interface AccommodationService {
     Optional<Accommodation> create(AccommodationDto accommodationDto);
     Optional<Accommodation> update(Long id, AccommodationDto accommodationDto);
     void deleteById(Long id);
+    List<Accommodation> search(String name, String location, AccommodationType type);
     List<Accommodation> findByAccommodationTypeBasedOnTheLocation(String location, AccommodationType accommodationType );
     List<Accommodation> findAccommodationsByPriceLessThan(Double pricePerNight, Double rating);
 }

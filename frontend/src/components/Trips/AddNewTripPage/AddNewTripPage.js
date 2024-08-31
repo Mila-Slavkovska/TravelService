@@ -1,10 +1,18 @@
 import {useCallback, useEffect, useState} from "react";
 import {FixedSizeList as List} from "react-window";
-import {addTrip, getAccommodations, getAttractions} from "../../../repository/travelService";
+import {
+    addTrip,
+    getAccommodations,
+    getAttractions,
+    getAccommodation,
+    getAttraction
+} from "../../../repository/travelService";
 import {useNavigate} from "react-router-dom";
+import {getDaysBetween} from "../../../utils/daysBetween";
 
 export default function AddNewTripPage(){
     const navigate = useNavigate();
+    const [myBudget, setMyBudget] = useState(0.0);
     const [inputs, setInputs] = useState({})
     const [attractions, setAttractions] = useState([]);
     const [selectedAttractions, setSelectedAttractions] = useState([]);
@@ -42,8 +50,41 @@ export default function AddNewTripPage(){
         setInputs(values => ({...values, accommodations: selectedAccommodations}));
     }, [selectedAccommodations]);
 
-    function handleCheckboxChange(event) {
-        const { value, checked } = event.target;
+    useEffect( () => {
+        const calculateMoney = async () => {
+            let money = 0;
+            const numPeople = inputs.numPeople || 1;
+            let days = 1;
+
+            if (inputs.date_from && inputs.date_to) {
+                days = getDaysBetween(inputs.date_from, inputs.date_to);
+            }
+
+            const attractionPrices = await Promise.all(
+                selectedAttractions.map(async id => {
+                    const data = await getAttraction(id);
+                    return data.price;
+                })
+            );
+
+            const accommodationPrices = await Promise.all(
+                selectedAccommodations.map(async id => {
+                    const data = await getAccommodation(id);
+                    return data.pricePerNight;
+                })
+            );
+
+            money += attractionPrices.length>0 && attractionPrices.reduce((acc, p) => acc + p*numPeople, 0);
+            money += accommodationPrices.length>0 && accommodationPrices.reduce((acc, p) => acc +p*numPeople*days, 0);
+
+            setMyBudget(money);
+        };
+
+        calculateMoney();
+
+    }, [selectedAttractions, selectedAccommodations, inputs]);
+    async function handleCheckboxChange(event) {
+        const { value } = event.target;
         const id = +value;
 
         setSelectedAttractions((prevSelected) =>
@@ -53,8 +94,8 @@ export default function AddNewTripPage(){
         );
     }
 
-    function handleCheckboxChangeAcc(event){
-        const { value, checked } = event.target;
+    async function handleCheckboxChangeAcc(event){
+        const { value} = event.target;
         const id = +value;
 
         setSelectedAccommodations((prevSelected) =>
@@ -72,6 +113,9 @@ export default function AddNewTripPage(){
 
     function handleSubmit(event){
         event.preventDefault();
+        if(myBudget > inputs.budget){
+            return;
+        }
         addTrip(inputs).then(() => navigate("/trips"));
     }
 
@@ -109,7 +153,7 @@ export default function AddNewTripPage(){
             <div className={"form-group d-md-inline-block px-md-3 py-2"}>
                 <label htmlFor="date_from" className={"me-3"}>From: </label>
                 <input id="date_from" type="datetime-local" name="date_from" className={"d-inline w-auto form-control"}
-                       value={inputs.date_from || ""} onClick={handleChange} onChange={handleChange} required/>
+                       value={inputs.date_from || ""} onChange={handleChange} required/>
             </div>
             <div className={"form-group d-md-inline-block px-md-3 py-2"}>
                 <label htmlFor="date_to" className={"me-3"}>To: </label>
@@ -124,11 +168,17 @@ export default function AddNewTripPage(){
             <div className="form-group">
                 <div className={"bg-light p-2 rounded-2 shadow"}>
                 <label className={"fw-bold p-3"}>Select Attractions:</label>
+                <div>
+                    <h6 className={"m-auto w-25 pb-2 d-flex justify-content-between display-none"}>
+                        <span>Name:</span>
+                        <span>Price: </span>
+                    </h6>
+
                 <List
                     height={200}
                     itemCount={attractions.length}
                     itemSize={45}
-                    width={600}
+                    width={450}
                     className={"m-auto bg-white rounded"}
                     // style={{backgroundColor: 'coral'}}
                 >
@@ -141,10 +191,14 @@ export default function AddNewTripPage(){
                                 onChange={handleCheckboxChange}
                                 className="form-check-input"
                             />
-                            <label className="form-check-label">{attractions[index].name}</label>
+                            <label className="form-check-label d-flex justify-content-between px-2">
+                                <span>{attractions[index].name}</span>
+                                <span>&#8364;{attractions[index].price}</span>
+                            </label>
                         </div>
                     )}
                 </List>
+                </div>
                 </div>
             </div>
             <hr className={"my-4"}/>
@@ -154,11 +208,16 @@ export default function AddNewTripPage(){
             <div className="form-group">
                 <div className={"bg-light p-2 rounded-2 shadow"}>
                     <label className={"fw-bold p-3"}>Select Accommodations:</label>
+                    <div>
+                        <h6 className={"m-auto w-25 pb-2 d-flex justify-content-between display-none"}>
+                            <span>Name:</span>
+                            <span>Price per night: </span>
+                        </h6>
                     <List
                         height={200}
                         itemCount={accommodations.length}
                         itemSize={45}
-                        width={600}
+                        width={450}
                         className={"m-auto bg-white rounded"}
                     >
                         {({ index }) => (
@@ -166,18 +225,31 @@ export default function AddNewTripPage(){
                                 <input
                                     type="checkbox"
                                     value={accommodations[index].id}
+                                    cost={accommodations[index].pricePerNight}
                                     checked={isCheckedAcc(accommodations[index].id)}
                                     onChange={handleCheckboxChangeAcc}
-                                    className="form-check-input"
+                                    className="form-check-input pointerCursor"
                                 />
-                                <label className="form-check-label">{accommodations[index].name}</label>
+                                <label className="form-check-label d-flex justify-content-between px-2">
+                                    <span>{accommodations[index].name}</span>
+                                    <span>&#8364;{accommodations[index].pricePerNight}</span>
+                                </label>
                             </div>
                         )}
                     </List>
+                    </div>
                 </div>
             </div>
+            <hr className={"my-4"}/>
 
-            <button className={"btn btn-warning text-white rounded-1 mt-4 text-center w-100 fs-5"}>Finish planning trip</button>
+            <p className={"display-6"}>
+                Total trip cost:
+                {inputs.budget?.length > 0 && inputs.budget >= myBudget && <span> &#8364;{myBudget}</span> }
+                {inputs.budget?.length > 0 && inputs.budget < myBudget && <span className={"text-danger"}> &#8364;{myBudget}, cost is higher than your budget!</span> }
+                {!inputs.budget?.length > 0 && <span className={"text-primary-emphasis"}> Please enter your budget for the trip!</span> }
+            </p>
+
+            <button disabled={myBudget>inputs.budget} className={"btn btn-warning text-white rounded-1 mt-4 text-center w-100 fs-5"}>Finish planning trip</button>
         </form>
     )
 }

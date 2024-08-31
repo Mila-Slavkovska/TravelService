@@ -25,7 +25,7 @@ export default function TripCard({myTrip, setTrips}){
                 </div>
                 <hr/>
                 <div className={"d-flex justify-content-around"}>
-                    <p className="card-text fw-bold">My budget: </p><p>{myTrip.budget}EU</p>
+                    <p className="card-text fw-bold">My budget: </p><p>&#8364;{myTrip.budget}</p>
                 </div>
                 <div className={"d-flex justify-content-around"}>
                     <p className="card-text fw-bold">Number of people: </p><p>{myTrip.numPeople}</p>

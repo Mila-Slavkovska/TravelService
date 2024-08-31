@@ -2,6 +2,7 @@ package com.example.travelservice.service.impl;
 
 import com.example.travelservice.models.Attraction;
 import com.example.travelservice.models.dto.AttractionDto;
+import com.example.travelservice.models.enumerations.AttractionType;
 import com.example.travelservice.repository.AttractionsRepository;
 import com.example.travelservice.service.AttractionsService;
 import org.springframework.stereotype.Service;
@@ -58,5 +59,21 @@ public class AttractionsServiceImpl implements AttractionsService {
     @Override
     public List<Attraction> findAllByLocation(String location) {
         return this.attractionsRepository.findAllByLocationContainingIgnoreCase(location);
+    }
+
+    @Override
+    public List<Attraction> search(String name, String location, AttractionType type) {
+        String enteredName = name, enteredLocation = location;
+        if(name == null){
+            enteredName = "";
+        }
+        if(location == null){
+            enteredLocation = "";
+        }
+        if(type != null){
+            return this.attractionsRepository.findAllByNameContainingIgnoreCaseAndLocationContainingIgnoreCaseAndType(enteredName, enteredLocation, type);
+        } else {
+            return this.attractionsRepository.findAllByNameContainingIgnoreCaseAndLocationContainingIgnoreCase(enteredName, enteredLocation);
+        }
     }
 }

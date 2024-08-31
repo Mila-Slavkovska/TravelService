@@ -120,7 +120,9 @@ export default function AddNewTripPage(){
     }
 
     return (
-        <form onSubmit={handleSubmit} className={"m-5"}>
+        <>
+            <img className={"d-flex justify-content-center"} src={"https://www.creativefabrica.com/wp-content/uploads/2021/03/20/Travel-logo-design-Graphics-9786083-1-1-580x435.jpg"} style={{width: 200, margin: 'auto'}} alt="a moving car"/>
+        <form onSubmit={handleSubmit} className={"m-5 mt-0 border rounded-2 shadow p-4"}>
             <h3>Let's start planning your next trip!</h3>
             <hr className={"my-4"}/>
             <h5>General information about your trip</h5>
@@ -164,7 +166,7 @@ export default function AddNewTripPage(){
             <hr className={"my-4"}/>
 
             <h5>Would you like to visit any of these attractions?</h5>
-            <div>Search params coming soon...</div>
+            <div>Search params coming soon... <b>By name</b> <b>By location</b> <b>By type</b></div>
             <div className="form-group">
                 <div className={"bg-light p-2 rounded-2 shadow"}>
                 <label className={"fw-bold p-3"}>Select Attractions:</label>
@@ -251,5 +253,6 @@ export default function AddNewTripPage(){
 
             <button disabled={myBudget>inputs.budget} className={"btn btn-warning text-white rounded-1 mt-4 text-center w-100 fs-5"}>Finish planning trip</button>
         </form>
+        </>
     )
 }

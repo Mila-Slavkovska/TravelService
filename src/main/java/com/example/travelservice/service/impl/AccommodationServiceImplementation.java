@@ -39,12 +39,6 @@ public class AccommodationServiceImplementation implements AccommodationService 
 
     @Override
     public Optional<Accommodation> update(Long id, AccommodationDto accommodationDto) {
-//        Product product = this.productRepository.findById(id).orElseThrow
-//                (() -> new ProductNotFoundException(id));
-//        product.setName(productDto.getName());
-//        product.setPrice(productDto.getPrice());
-//        product.setQuantity(productDto.getQuantity());
-
         Accommodation accommodation = this.accommodationRepository.findById(id).orElseThrow(
                 () -> new InvalidAccommodationIdException());
         accommodation.setName(accommodationDto.name());
@@ -66,9 +60,9 @@ public class AccommodationServiceImplementation implements AccommodationService 
     @Override
     public List<Accommodation> findByAccommodationTypeBasedOnTheLocation(String location, AccommodationType accommodationType) {
         if (accommodationType != null && location != null) {
-            return accommodationRepository.findAllByLocationLikeAndAccommodationTypeOrderByRating(location, accommodationType);
+            return accommodationRepository.findAllByLocationLikeAndAccommodationTypeOrderByRatingDesc(location, accommodationType);
         } else if (location != null) {
-            return accommodationRepository.findAllByLocationOrderByRating(location);
+            return accommodationRepository.findAllByLocationOrderByRatingDesc(location);
         } else {
             return this.accommodationRepository.findAll();
         }
@@ -77,11 +71,25 @@ public class AccommodationServiceImplementation implements AccommodationService 
     @Override
     public List<Accommodation> findAccommodationsByPriceLessThan(Double pricePerNight, Double rating) {
         if (pricePerNight != null && rating != null) {
-            return accommodationRepository.findAllByPricePerNightLessThanOrderByRating(pricePerNight);
+            return accommodationRepository.findAllByPricePerNightLessThanOrderByRatingDesc(pricePerNight);
         } else {
             return this.accommodationRepository.findAll();
         }
     }
 
-
+    @Override
+    public List<Accommodation> search(String name, String location, AccommodationType type) {
+        String enteredName = name, enteredLocation = location;
+        if(name == null){
+            enteredName = "";
+        }
+        if(location == null){
+            enteredLocation = "";
+        }
+        if(type != null){
+            return this.accommodationRepository.findAllByNameContainingIgnoreCaseAndLocationContainingIgnoreCaseAndAccommodationTypeOrderByRatingDesc(enteredName, enteredLocation, type);
+        } else {
+            return this.accommodationRepository.findAllByNameContainingIgnoreCaseAndLocationContainingIgnoreCaseOrderByRatingDesc(enteredName, enteredLocation);
+        }
+    }
 }

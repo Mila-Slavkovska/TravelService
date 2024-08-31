@@ -8,7 +8,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 public interface AccommodationRepository extends JpaRepository<Accommodation, Long> {
-    List<Accommodation> findAllByLocationOrderByRating(String location);
-    List<Accommodation> findAllByLocationLikeAndAccommodationTypeOrderByRating(String location, AccommodationType accommodationType);
-    List<Accommodation> findAllByPricePerNightLessThanOrderByRating(Double price);
+    List<Accommodation> findAllByLocationOrderByRatingDesc(String location);
+    List<Accommodation> findAllByLocationLikeAndAccommodationTypeOrderByRatingDesc(String location, AccommodationType accommodationType);
+    List<Accommodation> findAllByPricePerNightLessThanOrderByRatingDesc(Double price);
+    List<Accommodation> findAllByNameContainingIgnoreCaseAndLocationContainingIgnoreCaseOrderByRatingDesc(String name, String location);
+    List<Accommodation> findAllByNameContainingIgnoreCaseAndLocationContainingIgnoreCaseAndAccommodationTypeOrderByRatingDesc(String name, String location, AccommodationType type);
 }

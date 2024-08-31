@@ -2,6 +2,7 @@ package com.example.travelservice.web.rest;
 
 import com.example.travelservice.models.Accommodation;
 import com.example.travelservice.models.dto.AccommodationDto;
+import com.example.travelservice.models.enumerations.AccommodationType;
 import com.example.travelservice.service.AccommodationService;
 import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
@@ -53,6 +54,11 @@ public class AcommodationRestController {
         return ResponseEntity.ok().build();
     }
 
-
+    @GetMapping("/find")
+    public List<Accommodation> search(@RequestParam(required = false) String name,
+                                   @RequestParam(required = false) String location,
+                                   @RequestParam(required = false) AccommodationType type){
+        return this.accommodationService.search(name, location, type);
+    }
 
 }

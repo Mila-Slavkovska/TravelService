@@ -5,7 +5,7 @@ import {
     getAccommodations,
     getAttractions,
     getAccommodation,
-    getAttraction
+    getAttraction, searchAttractions, searchAccommodations
 } from "../../../repository/travelService";
 import {useNavigate} from "react-router-dom";
 import {getDaysBetween} from "../../../utils/daysBetween";
@@ -13,7 +13,11 @@ import {getDaysBetween} from "../../../utils/daysBetween";
 export default function AddNewTripPage(){
     const navigate = useNavigate();
     const [myBudget, setMyBudget] = useState(0.0);
+
     const [inputs, setInputs] = useState({})
+    const [searchAttractionsParams, setSearchAttractionsParams] = useState({name: "", location: "", type: ""});
+    const [searchAccommodationsParams, setSearchAccommodationsParams] = useState({name: "", location: "", type: ""});
+
     const [attractions, setAttractions] = useState([]);
     const [selectedAttractions, setSelectedAttractions] = useState([]);
     const [accommodations, setAccommodations] = useState([]);
@@ -111,6 +115,28 @@ export default function AddNewTripPage(){
         setInputs(values => ({...values, [name]: value}));
     }
 
+    function handleAttrParamsChange(event){
+        const name = event.target.name;
+        const value = event.target.value;
+        setSearchAttractionsParams(values => ({...values, [name]: value}));
+    }
+
+    async function handleSearchAttractions(){
+        const data = await searchAttractions(searchAttractionsParams);
+        setAttractions(data);
+    }
+
+    function handleAccParamsChange(event){
+        const name = event.target.name;
+        const value = event.target.value;
+        setSearchAccommodationsParams(values => ({...values, [name]: value}));
+    }
+
+    async function handleSearchAccommodations(){
+        const data = await searchAccommodations(searchAccommodationsParams);
+        setAccommodations(data);
+    }
+
     function handleSubmit(event){
         event.preventDefault();
         if(myBudget > inputs.budget){
@@ -166,7 +192,37 @@ export default function AddNewTripPage(){
             <hr className={"my-4"}/>
 
             <h5>Would you like to visit any of these attractions?</h5>
-            <div>Search params coming soon... <b>By name</b> <b>By location</b> <b>By type</b></div>
+            <div className={"d-flex justify-content-end px-md-4"}>
+                <input
+                    type="text"
+                    name="name"
+                    value={searchAttractionsParams.name || ""}
+                    placeholder="Name"
+                    onChange={handleAttrParamsChange}
+                    className={"form-control-sm mx-2"}
+                />
+                <input
+                    type="text"
+                    name="location"
+                    value={searchAttractionsParams.location || ""}
+                    placeholder="Location"
+                    onChange={handleAttrParamsChange}
+                    className={"form-control-sm mx-2"}
+                />
+                <select name="type" onChange={handleAttrParamsChange} className={"form-control-sm mx-2"}>
+                    <option value="">--Type--</option>
+                    <option value="PARK">Park</option>
+                    <option value="BEACH">Beach</option>
+                    <option value="CAVE">Cave</option>
+                    <option value="MOUNTAIN">Mountain</option>
+                    <option value="MUSEUM">Museum</option>
+                    <option value="GALLERY">Gallery</option>
+                    <option value="HISTORIC_SITE">Historic site</option>
+                    <option value="ENTERTAINMENT_PARK">Entertainment Park</option>
+                    <option value="SPORT">Sport</option>
+                </select>
+                <p className={"btn btn-light border mb-auto"} onClick={handleSearchAttractions}>Search</p>
+            </div>
             <div className="form-group">
                 <div className={"bg-light p-2 rounded-2 shadow"}>
                 <label className={"fw-bold p-3"}>Select Attractions:</label>
@@ -182,7 +238,6 @@ export default function AddNewTripPage(){
                     itemSize={45}
                     width={450}
                     className={"m-auto bg-white rounded"}
-                    // style={{backgroundColor: 'coral'}}
                 >
                     {({ index }) => (
                         <div className="form-check py-2 addBorder">
@@ -206,7 +261,31 @@ export default function AddNewTripPage(){
             <hr className={"my-4"}/>
 
             <h5>Would you like to stay somewhere during your trip?</h5>
-            <div>Search params coming soon...</div>
+            <div className={"d-flex justify-content-end px-md-4"}>
+                <input
+                    type="text"
+                    name="name"
+                    value={searchAccommodationsParams.name || ""}
+                    placeholder="Name"
+                    onChange={handleAccParamsChange}
+                    className={"form-control-sm mx-2"}
+                />
+                <input
+                    type="text"
+                    name="location"
+                    value={searchAccommodationsParams.location || ""}
+                    placeholder="Location"
+                    onChange={handleAccParamsChange}
+                    className={"form-control-sm mx-2"}
+                />
+                <select name="type" onChange={handleAccParamsChange} className={"form-control-sm mx-2"}>
+                    <option value="">--Type--</option>
+                    <option value="HOTEL">Hotel</option>
+                    <option value="STUDIO">Studio</option>
+                    <option value="APARTMENT">Apartment</option>
+                </select>
+                <p className={"btn btn-light border mb-auto"} onClick={handleSearchAccommodations}>Search</p>
+            </div>
             <div className="form-group">
                 <div className={"bg-light p-2 rounded-2 shadow"}>
                     <label className={"fw-bold p-3"}>Select Accommodations:</label>
@@ -227,13 +306,12 @@ export default function AddNewTripPage(){
                                 <input
                                     type="checkbox"
                                     value={accommodations[index].id}
-                                    cost={accommodations[index].pricePerNight}
                                     checked={isCheckedAcc(accommodations[index].id)}
                                     onChange={handleCheckboxChangeAcc}
                                     className="form-check-input pointerCursor"
                                 />
                                 <label className="form-check-label d-flex justify-content-between px-2">
-                                    <span>{accommodations[index].name}</span>
+                                    <span>{accommodations[index].name} ({accommodations[index].rating})</span>
                                     <span>&#8364;{accommodations[index].pricePerNight}</span>
                                 </label>
                             </div>

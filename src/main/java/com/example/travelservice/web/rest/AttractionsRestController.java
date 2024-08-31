@@ -1,4 +1,4 @@
-package com.example.travelservice.web;
+package com.example.travelservice.web.rest;
 
 import com.example.travelservice.models.Attraction;
 import com.example.travelservice.models.dto.AttractionDto;

@@ -60,5 +60,30 @@ export async function deleteTrip(id){
 }
 
 export async function addTrip(tripDto){
-    const response = await instance.post("/trips", {...tripDto});
+    try{
+        const response = await instance.post("/trips", {...tripDto});
+    } catch (error){
+        console.log("Error adding trip: " + error);
+        throw error;
+    }
+}
+
+export  async  function searchAttractions({name, location, type}){
+    try{
+        const response = await instance.get(`/attractions/find?name=${name}&location=${location}&type=${type}`);
+        return response.data;
+    } catch(error){
+        console.log("Error searching attractions: " + error);
+        throw error;
+    }
+}
+
+export  async  function searchAccommodations({name, location, type}){
+    try{
+        const response = await instance.get(`/accommodations/find?name=${name}&location=${location}&type=${type}`);
+        return response.data;
+    } catch(error){
+        console.log("Error searching accommodations: " + error);
+        throw error;
+    }
 }

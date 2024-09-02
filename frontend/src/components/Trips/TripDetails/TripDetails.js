@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import {deleteTrip, getTrips} from "../../../repository/travelService";
 import {useNavigate} from "react-router-dom";
+import './tripDetails.css';
 
 const style = {
     position: 'absolute',
@@ -18,7 +19,12 @@ const style = {
     p: 4,
 };
 export  default function TripDetails({trip, open, setOpen, setTrips}){
+    const navigate = useNavigate();
     const handleClose = () => setOpen(false);
+
+    function handleEdit(){
+        navigate(`/edit-trip/${trip.id}`);
+    }
 
     async function handleDelete(){
         handleClose();
@@ -39,7 +45,10 @@ export  default function TripDetails({trip, open, setOpen, setTrips}){
                 <Typography id="modal-modal-title" variant="h6" component="h2">
                     <div className={"d-flex justify-content-around"}>
                         <h4 className={"align-self-center fw-bold"}>{trip.name}</h4>
-                        <button className={"btn btn-danger"} onClick={handleDelete}>Delete</button>
+                        <div>
+                            <button id="edit" className={"btn btn-outline-info mx-2"} onClick={handleEdit}>Edit</button>
+                            <button className={"btn btn-danger"} onClick={handleDelete}>Delete</button>
+                        </div>
                     </div>
                 </Typography>
                 <hr/>
@@ -73,7 +82,7 @@ export  default function TripDetails({trip, open, setOpen, setTrips}){
                             </ul>
                         )}
                     </div>
-                    
+                    <div className={"fs-6 fw-lighter text-center text-secondary"}>Click away to close</div>
                 </div>
             </Box>
         </Modal>

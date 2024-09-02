@@ -3,6 +3,8 @@ import './App.css';
 import MyTripsPage from "../Trips/MyTripsPage/MyTripsPage";
 import Header from "../Navbar/Header";
 import AddNewTripPage from "../Trips/AddNewTripPage/AddNewTripPage";
+import EditTripPage from "../Trips/EditTripPage/EditTripPage";
+import {getTrip} from "../../repository/travelService";
 
 function App() {
   return (
@@ -11,9 +13,11 @@ function App() {
         <main>
             <div className={"container pb-5"}>
                 <Routes>
+                    //TODO: Add home page
                     <Route path={"/home"} element={<MyTripsPage/>}/>
                     <Route path={"/trips"} element={<MyTripsPage/>}/>
                     <Route path={"/plan-trip"} element={<AddNewTripPage/>}/>
+                    <Route path={"/edit-trip/:id"} element={<EditTripPage/>}/>
                     <Route path="/" element={
                         <Navigate replace to="/home" />
                     } />

@@ -30,6 +30,16 @@ export async function getAccommodations(){
     }
 }
 
+export async function getTrip(id){
+    try {
+        const response = await instance.get(`/trips/${id}`);
+        return response.data;
+    } catch (error){
+        console.log("Error fetching trip by id: " + error);
+        throw error;
+    }
+}
+
 export async function getAttraction(id){
     try {
         const response = await instance.get(`/attractions/${id}`);
@@ -55,6 +65,15 @@ export async function deleteTrip(id){
         await instance.delete(`/trips/${id}`);
     } catch (error){
         console.log("Error deleting trip: " + error);
+        throw error;
+    }
+}
+
+export async function editTrip(id, tripDto){
+    try{
+        const response = await instance.put(`/trips/${id}`, {...tripDto});
+    } catch (error){
+        console.log("Error editing trip: " + error);
         throw error;
     }
 }

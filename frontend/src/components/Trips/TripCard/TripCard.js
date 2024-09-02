@@ -7,7 +7,6 @@ import TripDetails from "../TripDetails/TripDetails";
 export default function TripCard({myTrip, setTrips}){
     const [isOpen, setIsOpen] = useState(false);
     function handleClick(id){
-        console.log(id);
         setIsOpen(true);
     }
 

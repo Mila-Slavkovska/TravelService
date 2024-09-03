@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useState} from "react";
+import {useCallback, useContext, useEffect, useState} from "react";
 import {FixedSizeList as List} from "react-window";
 import {
     addTrip,
@@ -9,9 +9,11 @@ import {
 } from "../../../repository/travelService";
 import {useNavigate} from "react-router-dom";
 import {getDaysBetween} from "../../../utils/daysBetween";
+import {AuthContext} from "../../../context/AuthContext";
 
 export default function AddNewTripPage(){
     const navigate = useNavigate();
+    const {token} = useContext(AuthContext);
     const [myBudget, setMyBudget] = useState(0.0);
 
     const [inputs, setInputs] = useState({})
@@ -34,6 +36,10 @@ export default function AddNewTripPage(){
         [selectedAccommodations]
     );
     const isCheckedAcc = (id) => isSelectedAcc(id);
+
+    if(!token){
+        navigate("/login");
+    }
 
     useEffect(() => {
         async function fetchTrips(){

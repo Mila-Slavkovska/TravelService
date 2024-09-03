@@ -13,7 +13,7 @@ public class GptResponse {
     @Column(length = 1000)
     private String prompt;
 
-    @Column(length = 1000)
+    @Column(length = 5000)
     private String response;
 
     public GptResponse() {

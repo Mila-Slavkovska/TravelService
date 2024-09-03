@@ -19,7 +19,7 @@ public class GptResponseController {
     public String getGptReply(@RequestBody GptRequest gptRequest) {
 
         try {
-            return gptService.getResponse(gptRequest.getPrompt());
+            return gptService.getResponse(gptRequest.getLocation(), gptRequest.getBudget());
         } catch (Exception e) {
             return "Error: " + e.getMessage();
         }

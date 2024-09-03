@@ -4,5 +4,6 @@ import lombok.Data;
 
 @Data
 public class GptRequest {
-    private String prompt;
+    private String location;
+    private Double budget;
 }

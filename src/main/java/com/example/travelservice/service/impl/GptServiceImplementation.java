@@ -30,11 +30,14 @@ public class GptServiceImplementation implements GptService {
     }
 
     @Override
-    public String getResponse(String prompt) throws Exception {
+    public String getResponse(String location, Double budget) throws Exception {
         HttpHeaders headers = new HttpHeaders();
 
         headers.set("Content-Type", "application/json");
         headers.set("Authorization", "Bearer " + apiKey);
+
+        String prompt = "Give me attraction and accommodation recommendations in " + location
+                + " to plan a trip within the budget of " + budget + " EUR.";
 
         String requestBody = "{"
                 + "\"model\": \"gpt-3.5-turbo\","

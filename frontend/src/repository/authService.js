@@ -13,7 +13,7 @@ export async function login(email, password){
     }
 }
 
-export async function register(email, password, fullName){
+export async function register({email, password, fullName}){
     try {
         const response = await instance.post("/auth/signup", {
             "email": email,

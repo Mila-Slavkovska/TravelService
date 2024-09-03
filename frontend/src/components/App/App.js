@@ -7,7 +7,7 @@ import EditTripPage from "../Trips/EditTripPage/EditTripPage";
 import {getTrip} from "../../repository/travelService";
 import LogIn from "../UserManagement/LogIn/LogIn";
 import {AuthProvider} from "../../context/AuthContext";
-import Register from "../UserManagement/Register";
+import Register from "../UserManagement/Register/Register";
 
 function App() {
     const flag = true;

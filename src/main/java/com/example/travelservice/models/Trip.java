@@ -28,13 +28,14 @@ public class Trip {
     List<Attraction> attractions;
     @ManyToMany(fetch = FetchType.EAGER)
     List<Accommodation> accommodations;
-
+    @ManyToOne
+    User user;
 
     public Trip() {
     }
 
 
-    public Trip(String name, Double budget, Integer numPeople, LocalDateTime date_from, LocalDateTime date_to, List<Attraction> attractions, List<Accommodation> accommodations) {
+    public Trip(String name, Double budget, Integer numPeople, LocalDateTime date_from, LocalDateTime date_to, List<Attraction> attractions, List<Accommodation> accommodations, User user) {
         this.name = name;
         this.budget = budget;
         this.numPeople = numPeople;
@@ -42,5 +43,6 @@ public class Trip {
         this.date_to = date_to;
         this.attractions = attractions;
         this.accommodations = accommodations;
+        this.user = user;
     }
 }

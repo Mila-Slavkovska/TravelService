@@ -1,8 +1,11 @@
 import instance from '../custom-axios/axios'
 
 export async function getTrips(){
+    const token = localStorage.getItem('token');
     try {
-        const response = await instance.get("/trips");
+        const response = await instance.get("/trips", {
+            headers: { Authorization: `Bearer ${token}` }
+        });
         return response.data;
     } catch (error){
         console.log("Error fetching trips: " + error);
@@ -79,8 +82,11 @@ export async function editTrip(id, tripDto){
 }
 
 export async function addTrip(tripDto){
+    const token = localStorage.getItem('token');
     try{
-        const response = await instance.post("/trips", {...tripDto});
+        const response = await instance.post("/trips", {...tripDto}, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
     } catch (error){
         console.log("Error adding trip: " + error);
         throw error;

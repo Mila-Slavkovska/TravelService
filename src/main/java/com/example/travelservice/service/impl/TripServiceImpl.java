@@ -3,9 +3,12 @@ package com.example.travelservice.service.impl;
 import com.example.travelservice.models.Attraction;
 import com.example.travelservice.models.Accommodation;
 import com.example.travelservice.models.Trip;
+import com.example.travelservice.models.User;
 import com.example.travelservice.models.dto.TripDto;
 import com.example.travelservice.models.exceptions.TripNotFoundException;
+import com.example.travelservice.models.exceptions.UserNotFoundException;
 import com.example.travelservice.repository.TripRepository;
+import com.example.travelservice.repository.UserRepository;
 import com.example.travelservice.service.AccommodationService;
 import com.example.travelservice.service.AttractionsService;
 import com.example.travelservice.service.TripService;
@@ -21,11 +24,13 @@ public class TripServiceImpl implements TripService {
     private final TripRepository tripRepository;
     private final AttractionsService attractionsService;
     private final AccommodationService accommodationService;
+    private final UserRepository userRepository;
 
-    public TripServiceImpl(TripRepository tripRepository, AttractionsService attractionsService, AccommodationService accommodationService) {
+    public TripServiceImpl(TripRepository tripRepository, AttractionsService attractionsService, AccommodationService accommodationService, UserRepository userRepository) {
         this.tripRepository = tripRepository;
         this.attractionsService = attractionsService;
         this.accommodationService = accommodationService;
+        this.userRepository = userRepository;
     }
 
     public List<Attraction> mapToAttractions(List<Long> attractionIds){
@@ -57,12 +62,14 @@ public class TripServiceImpl implements TripService {
     }
 
     @Override
-    public List<Trip> findAll() {
-        return this.tripRepository.findAllByOrderByDate_from();
+    public List<Trip> findAll(String username) {
+        //TODO: user
+        return this.tripRepository.findAllByOrderByDate_from(username);
     }
 
     @Override
-    public List<Trip> findByName(String name) {
+    public List<Trip> findByName(String username, String name) {
+        //TODO: User
         return this.tripRepository.findAllByNameContainingIgnoreCase(name);
     }
 
@@ -72,16 +79,19 @@ public class TripServiceImpl implements TripService {
     }
 
     @Override
-    public Optional<Trip> save(TripDto tripDto) {
+    public Optional<Trip> save(TripDto tripDto, String username) {
         List<Attraction> attractions = mapToAttractions(tripDto.attractions());
         List<Accommodation> accommodations = mapToAccommodations(tripDto.accommodations());
+        User user = this.userRepository.findByEmail(username)
+                .orElseThrow(() -> new UserNotFoundException(username));
 
-        Trip trip = new Trip(tripDto.name(), tripDto.budget(), tripDto.numPeople(), tripDto.date_from(), tripDto.date_to(), attractions, accommodations);
+        Trip trip = new Trip(tripDto.name(), tripDto.budget(), tripDto.numPeople(), tripDto.date_from(), tripDto.date_to(), attractions, accommodations, user);
         return Optional.of(this.tripRepository.save(trip));
     }
 
     @Override
     public Optional<Trip> edit(Long id, TripDto tripDto) {
+        //TODO: User
         Trip trip = this.tripRepository.findById(id)
                 .orElseThrow(() -> new TripNotFoundException(id));
 

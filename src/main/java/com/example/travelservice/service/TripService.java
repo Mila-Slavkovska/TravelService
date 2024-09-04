@@ -7,11 +7,10 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TripService {
-    //TODO: filter by user
-    List<Trip> findAll();
-    List<Trip> findByName(String name);
+    List<Trip> findAll(String username);
+    List<Trip> findByName(String username, String name);
     Optional<Trip> findById(Long id);
-    Optional<Trip> save(TripDto tripDto);
+    Optional<Trip> save(TripDto tripDto, String username);
     Optional<Trip> edit(Long id, TripDto tripDto);
     void deleteById(Long id);
 }

@@ -9,16 +9,22 @@ export default function MyTripsPage (){
     const [trips, setTrips] = useState([]);
     const {token} = useContext(AuthContext);
     const navigate = useNavigate();
-
+    console.log("in my trips toke ", token)
     if(!token){
+        console.log("token is null")
         navigate("/login");
     }
 
     useEffect(() => {
     async function fetchTrips(){
-        const data = await getTrips();
-        // console.log(data);
-        setTrips(data);
+        if(!token){
+            console.log("token is null")
+            navigate("/login");
+        } else {
+            const data = await getTrips();
+            // console.log(data);
+            setTrips(data);
+        }
     }
         fetchTrips();
     }, []);

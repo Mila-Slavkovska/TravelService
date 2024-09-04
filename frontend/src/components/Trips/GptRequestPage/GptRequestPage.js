@@ -1,6 +1,7 @@
-import { useState } from "react";
+import {useContext, useState} from "react";
 import { sendGptRequest, findAttractions, findAccommodations } from "../../../repository/travelService";
 import { useNavigate } from "react-router-dom";
+import {AuthContext} from "../../../context/AuthContext";
 
 export default function GetRequestPage() {
     const [location, setLocation] = useState("");
@@ -9,6 +10,11 @@ export default function GetRequestPage() {
     const [selectedAttractions, setSelectedAttractions] = useState([]);
     const [selectedAccommodations, setSelectedAccommodations] = useState([]);
     const navigate = useNavigate();
+    const {token} = useContext(AuthContext);
+
+    if(!token){
+        navigate("/login");
+    }
 
     const handleSubmit = async (event) => {
         event.preventDefault();

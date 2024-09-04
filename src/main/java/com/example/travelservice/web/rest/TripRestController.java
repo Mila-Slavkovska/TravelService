@@ -3,9 +3,11 @@ package com.example.travelservice.web.rest;
 import com.example.travelservice.models.Trip;
 import com.example.travelservice.models.dto.TripDto;
 import com.example.travelservice.service.TripService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -18,11 +20,19 @@ public class TripRestController {
     }
 
     @GetMapping
-    public List<Trip> findTrips(@RequestParam(required = false) String name){
-        if(name == null || name.isEmpty() || name.isBlank()){
-            return this.tripService.findAll();
+    public List<Trip> findTrips(@RequestParam(required = false) String name, HttpServletRequest request){
+        String username = "";
+        if(request.getHeader("Authorization") != null ){
+            username = request.getUserPrincipal().getName();
+        } else {
+            List<Trip> trips = new ArrayList<Trip>();
+            return trips;
         }
-        return this.tripService.findByName(name);
+
+        if(name == null || name.isEmpty() || name.isBlank()){
+            return this.tripService.findAll(username);
+        }
+        return this.tripService.findByName(username, name);
     }
 
     @GetMapping("/{id}")
@@ -33,8 +43,14 @@ public class TripRestController {
     }
 
     @PostMapping
-    public ResponseEntity<Trip> save(@RequestBody TripDto tripDto){
-        return this.tripService.save(tripDto)
+    public ResponseEntity<Trip> save(@RequestBody TripDto tripDto, HttpServletRequest request){
+        String username = "";
+        if(request.getHeader("Authorization") != null ){
+            username = request.getUserPrincipal().getName();
+            return ResponseEntity.ok(null);
+        }
+
+        return this.tripService.save(tripDto, username)
                 .map(trip -> ResponseEntity.ok().body(trip))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }

@@ -63,7 +63,6 @@ public class TripServiceImpl implements TripService {
 
     @Override
     public List<Trip> findAll(String username) {
-        //TODO: user
         return this.tripRepository.findAllByOrderByDate_from(username);
     }
 
@@ -91,7 +90,6 @@ public class TripServiceImpl implements TripService {
 
     @Override
     public Optional<Trip> edit(Long id, TripDto tripDto) {
-        //TODO: User
         Trip trip = this.tripRepository.findById(id)
                 .orElseThrow(() -> new TripNotFoundException(id));
 

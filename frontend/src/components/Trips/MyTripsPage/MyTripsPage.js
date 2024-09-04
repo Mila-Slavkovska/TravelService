@@ -7,18 +7,11 @@ import {useNavigate} from "react-router-dom";
 
 export default function MyTripsPage (){
     const [trips, setTrips] = useState([]);
-    const {token} = useContext(AuthContext);
     const navigate = useNavigate();
-    console.log("in my trips toke ", token)
-    if(!token){
-        console.log("token is null")
-        navigate("/login");
-    }
 
     useEffect(() => {
     async function fetchTrips(){
-        if(!token){
-            console.log("token is null")
+        if(!localStorage.getItem("token")){
             navigate("/login");
         } else {
             const data = await getTrips();
@@ -32,7 +25,7 @@ export default function MyTripsPage (){
 
     
     return (
-        <>
+        <div className={"container-fluid px-5 bg-white"}>
         <header className={"pt-5 pb-2 d-flex justify-content-between"}>
             <h2>My trips</h2>
             <div className={"align-self-center"}>
@@ -47,6 +40,6 @@ export default function MyTripsPage (){
                 trips.map((trip) => <TripCard key={trip.id} myTrip={trip} setTrips={setTrips}/>)
             )}
         </div>
-        </>
+        </div>
     )
 }

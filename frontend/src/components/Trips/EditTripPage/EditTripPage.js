@@ -15,7 +15,6 @@ import {AuthContext} from "../../../context/AuthContext";
 export default function EditTripPage(){
     const { id } = useParams();
     const [inputs, setInputs] = useState({budget: 0});
-    const {token} = useContext(AuthContext);
 
     const navigate = useNavigate();
     const [myBudget, setMyBudget] = useState(0.0);
@@ -29,7 +28,7 @@ export default function EditTripPage(){
     const [accommodations, setAccommodations] = useState([]);
     const [selectedAccommodations, setSelectedAccommodations] = useState([]);
 
-    if(!token){
+    if(!localStorage.getItem("token")){
         navigate("/login");
     }
 
@@ -170,7 +169,7 @@ export default function EditTripPage(){
     }
 
     return (
-        <>
+        <div className="container mt-5 bg-white">
             <img className={"d-flex justify-content-center"} src={"https://www.creativefabrica.com/wp-content/uploads/2021/03/20/Travel-logo-design-Graphics-9786083-1-1-580x435.jpg"} style={{width: 200, margin: 'auto'}} alt="a moving car"/>
             <form onSubmit={handleSubmit} className={"m-5 mt-0 border rounded-2 shadow p-4"}>
                 <h3>Let's change the plans for your trip!</h3>
@@ -354,6 +353,6 @@ export default function EditTripPage(){
 
                 <button disabled={myBudget>inputs.budget} className={"btn btn-warning text-white rounded-1 mt-4 text-center w-100 fs-5"}>Edit trip</button>
             </form>
-        </>
+        </div>
     )
 }

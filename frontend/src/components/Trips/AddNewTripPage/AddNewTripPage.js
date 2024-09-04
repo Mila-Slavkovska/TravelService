@@ -14,7 +14,6 @@ import {AuthContext} from "../../../context/AuthContext";
 export default function AddNewTripPage(){
     const navigate = useNavigate();
     const location = useLocation();
-    const {token} = useContext(AuthContext);
 
     const [myBudget, setMyBudget] = useState(0.0);
 
@@ -43,7 +42,7 @@ export default function AddNewTripPage(){
     );
     const isCheckedAcc = (id) => isSelectedAcc(id);
 
-    if(!token){
+    if(!localStorage.getItem("token")){
         navigate("/login");
     }
 
@@ -158,7 +157,7 @@ export default function AddNewTripPage(){
     }
 
     return (
-        <>
+        <div className="container mt-5 bg-white">
             <img className={"d-flex justify-content-center"} src={"https://www.creativefabrica.com/wp-content/uploads/2021/03/20/Travel-logo-design-Graphics-9786083-1-1-580x435.jpg"} style={{width: 200, margin: 'auto'}} alt="a moving car"/>
             <form onSubmit={handleSubmit} className={"m-5 mt-0 border rounded-2 shadow p-4"}>
                 <h3>Let's start planning your next trip!</h3>
@@ -343,6 +342,6 @@ export default function AddNewTripPage(){
 
                 <button disabled={myBudget>inputs.budget} className={"btn btn-warning text-white rounded-1 mt-4 text-center w-100 fs-5"}>Finish planning trip</button>
             </form>
-        </>
+        </div>
     )
 }

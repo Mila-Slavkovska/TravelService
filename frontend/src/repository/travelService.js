@@ -34,8 +34,11 @@ export async function getAccommodations(){
 }
 
 export async function getTrip(id){
+    const token = localStorage.getItem("token");
     try {
-        const response = await instance.get(`/trips/${id}`);
+        const response = await instance.get(`/trips/${id}`, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
         return response.data;
     } catch (error){
         console.log("Error fetching trip by id: " + error);
@@ -73,8 +76,11 @@ export async function deleteTrip(id){
 }
 
 export async function editTrip(id, tripDto){
+    const token = localStorage.getItem("token");
     try{
-        const response = await instance.put(`/trips/${id}`, {...tripDto});
+        const response = await instance.put(`/trips/${id}`, {...tripDto}, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
     } catch (error){
         console.log("Error editing trip: " + error);
         throw error;

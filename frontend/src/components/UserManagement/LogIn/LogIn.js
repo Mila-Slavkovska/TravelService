@@ -22,8 +22,8 @@ export default function LogIn(){
         }
         try{
             const response = await login(username, password);
-            setToken(response.data.token);
             localStorage.setItem("token", response.data.token);
+            setToken(response.data.token);
             navigate("/trips");
         } catch (error) {
             console.error("Authentication failed:", error);
@@ -32,7 +32,7 @@ export default function LogIn(){
             if (error.response && error.response.data) {
                 setErrorMessage(error.response.data);
             } else {
-                setErrorMessage("An unexpected error occurred. Please try again.");
+                setErrorMessage("Wrong username or password. Please try again.");
             }
         }
     }
@@ -60,7 +60,7 @@ export default function LogIn(){
                 <p className={"fs-6 fw-lighter text-center text-secondary pt-2"}>Dont have an account? <Link to={"/signup"}>Sign up</Link></p>
 
             </form>
-            {errorMessage && <div className={"text-danger w-25 m-auto pt-2"}>{errorMessage}</div>}{" "}
+            {errorMessage && <div className={"text-danger text-center w-25 m-auto pt-2"}>{errorMessage}</div>}{" "}
         </div>
     );
 }

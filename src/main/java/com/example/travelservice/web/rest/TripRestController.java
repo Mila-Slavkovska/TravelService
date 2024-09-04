@@ -47,6 +47,7 @@ public class TripRestController {
         String username = "";
         if(request.getHeader("Authorization") != null ){
             username = request.getUserPrincipal().getName();
+        } else {
             return ResponseEntity.ok(null);
         }
 

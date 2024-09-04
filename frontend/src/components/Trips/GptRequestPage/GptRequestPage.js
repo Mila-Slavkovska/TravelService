@@ -1,4 +1,4 @@
-import {useContext, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import { sendGptRequest, findAttractions, findAccommodations } from "../../../repository/travelService";
 import { useNavigate } from "react-router-dom";
 import {AuthContext} from "../../../context/AuthContext";
@@ -9,15 +9,18 @@ export default function GetRequestPage() {
     const [gptResponse, setGptResponse] = useState(null);
     const [selectedAttractions, setSelectedAttractions] = useState([]);
     const [selectedAccommodations, setSelectedAccommodations] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
-    const {token} = useContext(AuthContext);
 
-    if(!token){
-        navigate("/login");
-    }
+    useEffect(() => {
+        if(!localStorage.getItem("token")){
+            navigate("/login");
+        }
+    }, []);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        setIsLoading(true);
         try {
             const response = await sendGptRequest({ location, budget });
             const dbAttractions = await Promise.all(
@@ -37,6 +40,7 @@ export default function GetRequestPage() {
         } catch (error) {
             console.log(error);
         }
+        setIsLoading(false);
     };
 
     const handleAttractionChange = (id) => {
@@ -62,14 +66,13 @@ export default function GetRequestPage() {
     };
 
     return (
-        <div className="container mt-5">
+        <div className="container mt-5 bg-white">
             <img
                 src="https://www.creativefabrica.com/wp-content/uploads/2021/03/20/Travel-logo-design-Graphics-9786083-1-1-580x435.jpg"
                 style={{ width: 200, margin: 'auto', display: 'block' }}
                 alt="a moving car"
-                className="mb-4"
             />
-            <div className="border rounded-2 shadow p-4">
+            <div className="border rounded-2 shadow p-4 w-50 m-auto">
                 <h3 className="text-center">Plan Your Trip with GPT</h3>
                 <form onSubmit={handleSubmit} className="mt-4">
                     <div className="mb-3 row">
@@ -103,11 +106,12 @@ export default function GetRequestPage() {
                             </div>
                         </div>
                     </div>
-                    <button type="submit" className="btn btn-primary w-100">Get Recommendations</button>
+                    <button type="submit" className="btn btn-info text-white w-100">Get Recommendations</button>
                 </form>
             </div>
+            {isLoading && <p className={"text-center pt-5 fw-bold"}>Loading...</p>}
             {gptResponse && (
-                <div className="mt-4 border rounded-2 shadow p-4">
+                <div className="m-5 border rounded-2 shadow p-5">
                     <h4 className="text-center">Recommendations</h4>
 
                     <div className="mt-4">

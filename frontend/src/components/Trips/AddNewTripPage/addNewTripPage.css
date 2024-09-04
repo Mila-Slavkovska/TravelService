@@ -1,0 +1,7 @@
+.addBorder{
+    border: 1px solid #282c34;
+}
+
+.pointerCursor:hover{
+    cursor: pointer;
+}

@@ -31,3 +31,14 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# PostgreSQL data directory
+postgres-data/
+
+# Other potential database directories
+database/
+db-data/
+
+
+
+

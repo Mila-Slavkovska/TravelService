@@ -1,6 +1,17 @@
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import {useContext} from "react";
+import {AuthContext} from "../../context/AuthContext";
 
 export default function Header(){
+    const {token, setToken} = useContext(AuthContext);
+    const navigate = useNavigate();
+
+    function handleLogOut(){
+        setToken(null);
+        localStorage.removeItem("token");
+        navigate("/login");
+    }
+
     return(
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-md-5">
             <Link className="navbar-brand" to="/">
@@ -18,10 +29,16 @@ export default function Header(){
                     <li className="nav-item">
                         <Link className="nav-link" to="/trips">My trips</Link>
                     </li>
-                    {/*<li className="nav-item">*/}
-                    {/*    <Link className="nav-link" to="/plan-trip">Plan trip</Link>*/}
-                    {/*</li>*/}
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/gpt-request">Get recommendations</Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/plan-trip">Plan trip</Link>
+                    </li>
                 </ul>
+            </div>
+            <div>
+                {token && <button onClick={handleLogOut} className={"btn btn-outline-light"}>Log out</button>}
             </div>
         </nav>
     )

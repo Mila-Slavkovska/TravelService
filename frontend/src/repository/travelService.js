@@ -106,3 +106,31 @@ export  async  function searchAccommodations({name, location, type}){
         throw error;
     }
 }
+
+export async function sendGptRequest(gptRequest) {
+    try {
+        const response = await instance.post("/gpt/prompt", gptRequest);
+        return response.data;
+    } catch (error) {
+        console.log("Error sending GPT request: " + error);
+        throw error;
+    }
+}
+export  async  function findAccommodations({name, location}){
+    try{
+        const response = await instance.get(`/accommodations/find?name=${name}&location=${location}`);
+        return response.data;
+    } catch(error){
+        console.log("Error searching accommodations: " + error);
+        throw error;
+    }
+}
+export  async  function findAttractions({name, location}){
+    try{
+        const response = await instance.get(`/attractions/find?name=${name}&location=${location}`);
+        return response.data;
+    } catch(error){
+        console.log("Error searching attractions: " + error);
+        throw error;
+    }
+}

@@ -60,5 +60,10 @@ public class AcommodationRestController {
                                    @RequestParam(required = false) AccommodationType type){
         return this.accommodationService.search(name, location, type);
     }
+    @GetMapping("/findAllByName")
+    public List<Accommodation> search(@RequestParam(required = false) String name,
+                                      @RequestParam(required = false) String location){
+        return this.accommodationService.findByNameAndLocation(name, location);
+    }
 
 }

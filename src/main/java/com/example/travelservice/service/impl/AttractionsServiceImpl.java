@@ -52,6 +52,11 @@ public class AttractionsServiceImpl implements AttractionsService {
     }
 
     @Override
+    public List<Attraction> findByNameAndLocation(String name, String location) {
+        return this.attractionsRepository.findAllByNameContainingIgnoreCaseAndLocationContainingIgnoreCase(name, location);
+    }
+
+    @Override
     public void deleteById(Long id) {
         this.attractionsRepository.deleteById(id);
     }
@@ -76,4 +81,5 @@ public class AttractionsServiceImpl implements AttractionsService {
             return this.attractionsRepository.findAllByNameContainingIgnoreCaseAndLocationContainingIgnoreCase(enteredName, enteredLocation);
         }
     }
+
 }

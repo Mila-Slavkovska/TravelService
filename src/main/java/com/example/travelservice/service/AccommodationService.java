@@ -16,4 +16,6 @@ public interface AccommodationService {
     List<Accommodation> search(String name, String location, AccommodationType type);
     List<Accommodation> findByAccommodationTypeBasedOnTheLocation(String location, AccommodationType accommodationType );
     List<Accommodation> findAccommodationsByPriceLessThan(Double pricePerNight, Double rating);
+
+    List<Accommodation> findByNameAndLocation(String name, String location);
 }

@@ -1,12 +1,11 @@
 package com.example.travelservice.service.impl;
 
 import com.example.travelservice.models.GptResponse;
+import com.example.travelservice.repository.AccommodationRepository;
+import com.example.travelservice.repository.AttractionsRepository;
 import com.example.travelservice.repository.GptResponseRepository;
 import com.example.travelservice.service.GptService;
 import com.example.travelservice.utilities.RequestUtility;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -28,8 +27,14 @@ public class GptServiceImplementation implements GptService {
     private RestTemplate restTemplate;
     private final GptResponseRepository gptResponseRepository;
 
-    public GptServiceImplementation(GptResponseRepository gptResponseRepository) {
+    private final AttractionsRepository attractionsRepository;
+
+    private final AccommodationRepository accommodationRepository;
+
+    public GptServiceImplementation(GptResponseRepository gptResponseRepository, AttractionsRepository attractionsRepository, AccommodationRepository accommodationRepository) {
         this.gptResponseRepository = gptResponseRepository;
+        this.attractionsRepository = attractionsRepository;
+        this.accommodationRepository = accommodationRepository;
     }
 
     @Override
@@ -41,6 +46,8 @@ public class GptServiceImplementation implements GptService {
         ResponseEntity<String> response = restTemplate.exchange(API_URL, HttpMethod.POST, entity, String.class);
 
         String gptReply = RequestUtility.parseResponse(response.getBody());
+
+        RequestUtility.saveParsedData(gptReply, attractionsRepository, accommodationRepository);
 
         GptResponse gptResponse = new GptResponse(requestBody, gptReply);
         gptResponseRepository.save(gptResponse);

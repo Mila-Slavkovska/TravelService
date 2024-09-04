@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface AccommodationRepository extends JpaRepository<Accommodation, Long> {
     List<Accommodation> findAllByLocationOrderByRatingDesc(String location);
@@ -13,4 +14,6 @@ public interface AccommodationRepository extends JpaRepository<Accommodation, Lo
     List<Accommodation> findAllByPricePerNightLessThanOrderByRatingDesc(Double price);
     List<Accommodation> findAllByNameContainingIgnoreCaseAndLocationContainingIgnoreCaseOrderByRatingDesc(String name, String location);
     List<Accommodation> findAllByNameContainingIgnoreCaseAndLocationContainingIgnoreCaseAndAccommodationTypeOrderByRatingDesc(String name, String location, AccommodationType type);
+
+    Optional<Accommodation> findByName(String name);
 }

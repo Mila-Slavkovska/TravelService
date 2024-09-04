@@ -15,4 +15,6 @@ public interface AttractionsService {
     List<Attraction> search(String name, String location, AttractionType type);
     Optional<Attraction> save(AttractionDto attractionDto);
     Optional<Attraction> edit(Long id, AttractionDto attractionDto);
+
+    List<Attraction> findByNameAndLocation(String name, String location);
 }

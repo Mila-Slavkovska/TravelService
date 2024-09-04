@@ -58,4 +58,9 @@ public class AttractionsRestController {
                                    @RequestParam(required = false) AttractionType type){
         return this.attractionsService.search(name, location, type);
     }
+    @GetMapping("/findByName")
+    public List<Attraction> search(@RequestParam(required = false) String name,
+                                   @RequestParam(required = false) String location){
+        return this.attractionsService.findByNameAndLocation(name, location);
+    }
 }

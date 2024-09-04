@@ -2,13 +2,18 @@ package com.example.travelservice.utilities;
 
 import com.example.travelservice.models.Accommodation;
 import com.example.travelservice.models.Attraction;
+import com.example.travelservice.models.dto.AccommodationDto;
+import com.example.travelservice.models.dto.AttractionDto;
 import com.example.travelservice.models.enumerations.AccommodationType;
 import com.example.travelservice.models.enumerations.AttractionType;
 import com.example.travelservice.repository.AccommodationRepository;
 import com.example.travelservice.repository.AttractionsRepository;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpHeaders;
+
+import java.util.List;
 
 public class RequestUtility {
     private static final ObjectMapper mapper = new ObjectMapper();
@@ -58,36 +63,36 @@ public class RequestUtility {
         JsonNode jsonNode = mapper.readTree(jsonContent);
 
         JsonNode jsonAttractionsNode = jsonNode.get("attractions");
-        if(jsonAttractionsNode != null && jsonAttractionsNode.isArray()){
-            for (JsonNode jsonAttractionNode : jsonAttractionsNode) {
-                String name = jsonAttractionNode.get("name").asText();
+        if (jsonAttractionsNode != null && jsonAttractionsNode.isArray()) {
+            List<AttractionDto> attractionsDtos = mapper.readValue(jsonAttractionsNode.toString(), new TypeReference<List<AttractionDto>>() {});
 
-                    if(attractionsRepository.findByName(name).isEmpty()) {
-                        Attraction attraction = new Attraction(
-                                name,
-                                jsonAttractionNode.get("description").asText(),
-                                jsonAttractionNode.get("location").asText(),
-                                jsonAttractionNode.get("price").asDouble(),
-                                AttractionType.valueOf(jsonAttractionNode.get("type").asText())
-                        );
-                        attractionsRepository.save(attraction);
-                    }
+            for (AttractionDto attractionDto : attractionsDtos) {
+                if (attractionsRepository.findByName(attractionDto.name()).isEmpty()) {
+                    Attraction attraction = new Attraction(
+                            attractionDto.name(),
+                            attractionDto.description(),
+                            attractionDto.location(),
+                            attractionDto.price(),
+                            attractionDto.type()
+                    );
+                    attractionsRepository.save(attraction);
+                }
             }
         }
 
         JsonNode jsonAccommodationsNode = jsonNode.get("accommodations");
         if (jsonAccommodationsNode != null && jsonAccommodationsNode.isArray()) {
-            for (JsonNode jsonAccommodationNode : jsonAccommodationsNode) {
-                String name = jsonAccommodationNode.get("name").asText();
+            List<AccommodationDto> accommodationsDtos = mapper.readValue(jsonAccommodationsNode.toString(), new TypeReference<List<AccommodationDto>>() {});
 
-                if (accommodationRepository.findByName(name).isEmpty()) {
+            for (AccommodationDto accommodationDto : accommodationsDtos) {
+                if (accommodationRepository.findByName(accommodationDto.name()).isEmpty()) {
                     Accommodation accommodation = new Accommodation(
-                            name,
-                            jsonAccommodationNode.get("location").asText(),
-                            jsonAccommodationNode.get("rating").asDouble(),
-                            jsonAccommodationNode.get("price per night").asDouble(),
+                            accommodationDto.name(),
+                            accommodationDto.location(),
+                            accommodationDto.rating(),
+                            accommodationDto.pricePerNight(),
                             1,
-                            AccommodationType.valueOf(jsonAccommodationNode.get("type").asText())
+                            accommodationDto.accommodationType()
                     );
                     accommodationRepository.save(accommodation);
                 }

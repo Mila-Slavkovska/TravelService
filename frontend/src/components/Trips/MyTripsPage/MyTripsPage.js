@@ -1,10 +1,18 @@
 import {getTrips} from "../../../repository/travelService";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import TripCard from "../TripCard/TripCard";
 import "./MyTripsPage.css"
+import {AuthContext} from "../../../context/AuthContext";
+import {useNavigate} from "react-router-dom";
 
 export default function MyTripsPage (){
     const [trips, setTrips] = useState([]);
+    const {token} = useContext(AuthContext);
+    const navigate = useNavigate();
+
+    if(!token){
+        navigate("/login");
+    }
 
     useEffect(() => {
     async function fetchTrips(){

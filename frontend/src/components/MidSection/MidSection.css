@@ -1,0 +1,79 @@
+.about-us {
+    margin: 4rem 6rem;
+}
+
+.about-us h2 {
+    font-size: 3rem;
+    text-align: center;
+}
+
+.about-us h5 {
+    text-align: center;
+}
+
+.about-us p {
+    font-size: 15px;
+    text-align: center;
+}
+
+.activities-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 4.5rem;
+}
+
+.activities-text {
+    width: 50%;
+    text-align: start;
+    font-size: 1.1rem;
+}
+
+.activities-text h4 {
+    padding-bottom: 1rem;
+    text-align: center;
+}
+
+.activities-images {
+    position: relative;
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+    z-index: -99;
+}
+
+.activities-images img {
+    width: 49%;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 6px;
+    box-shadow: -1px 1px 62px -18px rgba(0,0,0,0.19);
+}
+
+.activities-destinations {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 4.5rem;
+}
+
+.activities-text p {
+    text-align: center;
+    margin-left: 4px;
+}
+
+.activities-image1 {
+    margin-top: 20px;
+    margin-left: 10px;
+}
+
+.mid-btns {
+    display: flex;
+    justify-content: center;
+}
+
+.btns {
+    margin-left: 20px;
+}
+
+

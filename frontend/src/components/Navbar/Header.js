@@ -18,9 +18,9 @@ export default function Header(){
                     <li className="nav-item">
                         <Link className="nav-link" to="/trips">My trips</Link>
                     </li>
-                    <li className="nav-item">
-                        <Link className="nav-link" to="/plan-trip">Plan trip</Link>
-                    </li>
+                    {/*<li className="nav-item">*/}
+                    {/*    <Link className="nav-link" to="/plan-trip">Plan trip</Link>*/}
+                    {/*</li>*/}
                 </ul>
             </div>
         </nav>

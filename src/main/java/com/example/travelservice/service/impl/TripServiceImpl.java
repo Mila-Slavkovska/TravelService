@@ -67,9 +67,8 @@ public class TripServiceImpl implements TripService {
     }
 
     @Override
-    public List<Trip> findByName(String username, String name) {
-        //TODO: User
-        return this.tripRepository.findAllByNameContainingIgnoreCase(name);
+    public List<Trip> findByName(String email, String name) {
+        return this.tripRepository.findAllByUserEmailAndNameContainingOrderByDateFromDesc(email, name);
     }
 
     @Override

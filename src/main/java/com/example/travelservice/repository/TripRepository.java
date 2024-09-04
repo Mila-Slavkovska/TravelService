@@ -10,7 +10,9 @@ import java.util.List;
 
 @Repository
 public interface TripRepository extends JpaRepository<Trip, Long> {
-    List<Trip> findAllByNameContainingIgnoreCase(String name);
+    @Query("SELECT t FROM Trip t WHERE t.user.email = :email AND LOWER(t.name) LIKE LOWER(CONCAT('%', :name, '%')) ORDER BY t.date_from DESC")
+    List<Trip> findAllByUserEmailAndNameContainingOrderByDateFromDesc(@Param("email") String email, @Param("name") String name);
+
     @Query("SELECT t FROM Trip t WHERE t.user.email = :email ORDER BY t.date_from DESC")
     List<Trip> findAllByOrderByDate_from(@Param("email") String email);
 }

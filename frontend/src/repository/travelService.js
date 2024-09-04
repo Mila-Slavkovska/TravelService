@@ -13,6 +13,19 @@ export async function getTrips(){
     }
 }
 
+export async function getTripsByName(name){
+    const token = localStorage.getItem('token');
+    try {
+        const response = await instance.get(`/trips?name=${name}`, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        return response.data;
+    } catch (error){
+        console.log("Error fetching trips by name: " + error);
+        throw error;
+    }
+}
+
 export async function getAttractions(){
     try {
         const response = await instance.get("/attractions");

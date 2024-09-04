@@ -4,7 +4,7 @@ import './Button.css'
 
 const STYLES = ['btn--primary', 'btn--outline', 'btn--test'];
 
-const SIZES = ['btn--medium', 'btn--large'];
+const SIZES = ['btn--medium', 'btn--large', 'btn--small'];
 
 export const Button = ({
                            children,

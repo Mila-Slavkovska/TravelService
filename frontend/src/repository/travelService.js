@@ -46,6 +46,16 @@ export async function getAccommodations(){
     }
 }
 
+export async function getTopAccommodations(){
+    try {
+        const response = await instance.get("/accommodations/toprated");
+        return response.data;
+    } catch (error){
+        console.log("Error fetching accommodations: " + error);
+        throw error;
+    }
+}
+
 export async function getTrip(id){
     const token = localStorage.getItem("token");
     try {

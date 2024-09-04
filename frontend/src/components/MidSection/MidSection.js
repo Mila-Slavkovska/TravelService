@@ -68,9 +68,12 @@ export default function MidSection () {
                         your cultural horizons or a relaxing holiday by the beach, our site will show you
                         all the available accommodations according to your liking, and your desired budget. </p>
                     <div className="mid-btns">
-                        <Button classname="btns" buttonStyle="btn--primary"
-                                buttonSize="btn--medium" onClick={() => window.location.href="/plan-trip"}>
+                        <Button className="btns" buttonStyle="btn--primary" buttonSize="btn--medium" onClick={() => window.location.href="/plan-trip"}>
                             Available to select in our planner
+                        </Button>
+                        <p>For reference, check out top rated accommodations</p>
+                        <Button className="btns" buttonStyle="btn--primary" buttonSize="btn--small" onClick={() => window.location.href="/top-rated-accommodations"}>
+                            Top rated
                         </Button>
                     </div>
                 </div>

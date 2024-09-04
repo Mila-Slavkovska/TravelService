@@ -4,20 +4,18 @@ import com.example.travelservice.models.Accommodation;
 import com.example.travelservice.models.dto.AccommodationDto;
 import com.example.travelservice.models.enumerations.AccommodationType;
 import com.example.travelservice.service.AccommodationService;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3001"})
 @RequestMapping("/api/accommodations")
-public class AcommodationRestController {
+public class AccommodationRestController {
     private final AccommodationService accommodationService;
 
-    public AcommodationRestController(AccommodationService accommodationService) {
+    public AccommodationRestController(AccommodationService accommodationService) {
         this.accommodationService = accommodationService;
     }
     @GetMapping
@@ -64,6 +62,11 @@ public class AcommodationRestController {
     public List<Accommodation> search(@RequestParam(required = false) String name,
                                       @RequestParam(required = false) String location){
         return this.accommodationService.findByNameAndLocation(name, location);
+    }
+
+    @GetMapping("/toprated")
+    public List<Accommodation> listTopRatedAccommodations() {
+        return this.accommodationService.findAllByOrderByRatingDesc();
     }
 
 }

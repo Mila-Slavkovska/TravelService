@@ -83,6 +83,11 @@ public class AccommodationServiceImplementation implements AccommodationService 
     }
 
     @Override
+    public List<Accommodation> findAllByOrderByRatingDesc() {
+        return this.accommodationRepository.findAllByOrderByRatingDesc();
+    }
+
+    @Override
     public List<Accommodation> search(String name, String location, AccommodationType type) {
         String enteredName = name, enteredLocation = location;
         if(name == null){

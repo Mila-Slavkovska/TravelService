@@ -10,6 +10,7 @@ import HomePage from "../Homepage/HomePage";
 import LogIn from "../UserManagement/LogIn/LogIn";
 import {AuthProvider} from "../../context/AuthContext";
 import Register from "../UserManagement/Register/Register";
+import AccommodationsByRating from "../AccommodationsByRating/AccommodationsByRating"
 
 function App() {
     const flag = true;
@@ -27,6 +28,7 @@ function App() {
                         <Route path={"/plan-trip"} element={<AddNewTripPage/>}/>
                         <Route path={"/edit-trip/:id"} element={<EditTripPage/>}/>
                         <Route path={"/gpt-request"} element={<GetRequestPage/>}/>
+                        <Route path={"/top-rated-accommodations"} element={<AccommodationsByRating/>}/>
                         <Route path="/" element={
                             <Navigate replace to="/home" />
                         } />

@@ -33,6 +33,11 @@
     font-size: 20px;
 }
 
+.btn--small {
+    padding: 6px 18px;
+    font-size: 12px;
+}
+
 .btn--large:hover,
 .btn--medium:hover {
     transition: all 0.3s ease-out;

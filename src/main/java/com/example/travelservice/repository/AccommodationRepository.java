@@ -16,4 +16,5 @@ public interface AccommodationRepository extends JpaRepository<Accommodation, Lo
     List<Accommodation> findAllByNameContainingIgnoreCaseAndLocationContainingIgnoreCaseAndAccommodationTypeOrderByRatingDesc(String name, String location, AccommodationType type);
 
     Optional<Accommodation> findByName(String name);
+    List<Accommodation> findAllByOrderByRatingDesc();
 }
